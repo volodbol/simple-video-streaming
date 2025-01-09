@@ -28,11 +28,32 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<version.hibernate.jpamodelgen>6.6.4.Final</version.hibernate.jpamodelgen>
+		<version.hypersistance>3.9.0</version.hypersistance>
+		<version.jakarta.xml>4.0.2</version.jakarta.xml>
+		<version.plugin.maven.helper.build>3.6.0</version.plugin.maven.helper.build>
+		<version.plugin.maven.processor>5.1</version.plugin.maven.processor>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>${version.jakarta.xml}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>${version.hibernate.jpamodelgen}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-63</artifactId>
+			<version>${version.hypersistance}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -92,6 +113,42 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<version>${version.plugin.maven.processor}</version>
+				<executions>
+					<execution>
+						<id>jpamodelgen</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<outputDirectory>target/metamodel</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${version.plugin.maven.helper.build}</version>
+				<executions>
+					<execution>
+						<id>jpamodelgen</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/metamodel</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
