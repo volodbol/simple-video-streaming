@@ -27,6 +27,8 @@ public class Video extends AbstractAuditPersistable {
     private String synopsis;
     @Column(name = "director")
     private String director;
+    @Column(name = "main_actor")
+    private String mainActor;
     @Type(ListArrayType.class)
     @Column(name = "cast", columnDefinition = "text[]")
     private List<String> cast;
