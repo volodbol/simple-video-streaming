@@ -66,6 +66,21 @@ public class Video extends AbstractAuditPersistable {
         this.duration = duration;
     }
 
+    public static Video random() {
+        var faker = new Faker();
+        return new Video(
+                faker.internet().username(),
+                faker.book().title(),
+                faker.text().text(25, 255),
+                faker.name().name(),
+                faker.name().name(),
+                Arrays.asList(faker.name().name(), faker.name().name(), faker.name().name()),
+                faker.book().genre(),
+                faker.timeAndDate().birthday().getYear(),
+                faker.duration().atMostHours(3).getSeconds()
+        );
+    }
+
     public static Video random(
             String title,
             String director,
