@@ -38,6 +38,8 @@ public class Video extends AbstractAuditPersistable {
     private int year;
     @Column(name = "duration")
     private long duration;
+    @Column(name = "hidden")
+    private boolean hidden;
 
     public Video() {
     }

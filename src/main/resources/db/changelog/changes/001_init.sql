@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS "videos"
     actor_cast text[],
     genre      varchar(255),
     year       integer,
-    duration   integer
+    duration   integer,
+    hidden     bool
 );
 
 CREATE TABLE IF NOT EXISTS "video_engagements"
