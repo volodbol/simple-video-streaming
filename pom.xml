@@ -33,6 +33,7 @@
 		<version.jakarta.xml>4.0.2</version.jakarta.xml>
 		<version.guava>33.4.0-jre</version.guava>
 		<version.datafaker>2.4.2</version.datafaker>
+		<version.spring.openapi>2.8.1</version.spring.openapi>
 		<version.test.assertj>3.27.2</version.test.assertj>
 		<version.plugin.maven.helper.build>3.6.0</version.plugin.maven.helper.build>
 		<version.plugin.maven.processor>5.1</version.plugin.maven.processor>
@@ -63,6 +64,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${version.spring.openapi}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>

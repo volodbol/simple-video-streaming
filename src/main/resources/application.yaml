@@ -1,3 +1,11 @@
 spring:
   application:
    name: simple-video-streaming
+
+server:
+  servlet:
+    context-path: /api
+
+springdoc:
+  swagger-ui:
+    tags-sorter: "alpha"
