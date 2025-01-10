@@ -10,6 +10,7 @@ class SimpleVideoStreamingApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// no actions
 	}
 
 }

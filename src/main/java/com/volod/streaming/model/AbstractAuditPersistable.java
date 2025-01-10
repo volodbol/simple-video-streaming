@@ -1,24 +1,16 @@
 package com.volod.streaming.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Id;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.UUID;
-
-import static java.util.Objects.isNull;
-
+@EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class AbstractAuditPersistable implements Persistable<UUID> {
+public abstract class AbstractAuditPersistable extends AbstractPersistable {
 
-    @Id
-    @UuidGenerator
-    @Column(name = "id")
-    protected UUID id;
     @Column(name = "created_by")
     protected String createdBy;
     @CreatedDate
@@ -28,13 +20,12 @@ public class AbstractAuditPersistable implements Persistable<UUID> {
     @Column(name = "updated_at")
     protected long updatedAt;
 
-    @Override
-    public UUID getId() {
-        return this.id;
+    protected AbstractAuditPersistable() {
+        super();
     }
 
-    @Override
-    public boolean isNew() {
-        return isNull(this.id);
+    protected AbstractAuditPersistable(String createdBy) {
+        super();
+        this.createdBy = createdBy;
     }
 }

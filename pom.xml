@@ -31,8 +31,13 @@
 		<version.hibernate.jpamodelgen>6.6.4.Final</version.hibernate.jpamodelgen>
 		<version.hypersistance>3.9.0</version.hypersistance>
 		<version.jakarta.xml>4.0.2</version.jakarta.xml>
+		<version.guava>33.4.0-jre</version.guava>
+		<version.datafaker>2.4.2</version.datafaker>
+		<version.test.assertj>3.27.2</version.test.assertj>
 		<version.plugin.maven.helper.build>3.6.0</version.plugin.maven.helper.build>
 		<version.plugin.maven.processor>5.1</version.plugin.maven.processor>
+		<version.plugin.failsafe>3.5.2</version.plugin.failsafe>
+		<version.plugin.surefire>3.5.2</version.plugin.surefire>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -57,15 +62,22 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${version.guava}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.datafaker</groupId>
+			<artifactId>datafaker</artifactId>
+			<version>${version.datafaker}</version>
 		</dependency>
 
 		<dependency>
@@ -95,13 +107,14 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>junit-jupiter</artifactId>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${version.test.assertj}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -119,7 +132,7 @@
 				<version>${version.plugin.maven.processor}</version>
 				<executions>
 					<execution>
-						<id>jpamodelgen</id>
+						<id>add-jpamodelgen-source</id>
 						<goals>
 							<goal>process</goal>
 						</goals>
@@ -136,7 +149,7 @@
 				<version>${version.plugin.maven.helper.build}</version>
 				<executions>
 					<execution>
-						<id>jpamodelgen</id>
+						<id>add-jpamodelgen-source</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>add-source</goal>
@@ -147,7 +160,41 @@
 							</sources>
 						</configuration>
 					</execution>
+					<execution>
+						<id>add-integration-test-source</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/test-integration/java</source>
+							</sources>
+						</configuration>
+					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${version.plugin.failsafe}</version>
+				<executions>
+					<execution>
+						<id>integration-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${version.plugin.surefire}</version>
+				<configuration>
+					<runOrder>random</runOrder>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

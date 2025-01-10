@@ -5,14 +5,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
+import net.datafaker.Faker;
 import org.hibernate.annotations.Type;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -30,7 +30,7 @@ public class Video extends AbstractAuditPersistable {
     @Column(name = "main_actor")
     private String mainActor;
     @Type(ListArrayType.class)
-    @Column(name = "cast", columnDefinition = "text[]")
+    @Column(name = "actor_cast", columnDefinition = "text[]")
     private List<String> cast;
     @Column(name = "genre")
     private String genre;
@@ -38,6 +38,62 @@ public class Video extends AbstractAuditPersistable {
     private int year;
     @Column(name = "duration")
     private long duration;
+
+    public Video() {
+    }
+
+    public Video(
+            String createdBy,
+            String title,
+            String synopsis,
+            String director,
+            String mainActor,
+            List<String> cast,
+            String genre,
+            int year,
+            long duration
+    ) {
+        super(
+                createdBy
+        );
+        this.title = title;
+        this.synopsis = synopsis;
+        this.director = director;
+        this.mainActor = mainActor;
+        this.cast = cast;
+        this.genre = genre;
+        this.year = year;
+        this.duration = duration;
+    }
+
+    public static Video random(
+            String title,
+            String director,
+            String mainActor
+    ) {
+        var faker = new Faker();
+        return new Video(
+                faker.internet().username(),
+                title,
+                faker.text().text(25, 255),
+                director,
+                mainActor,
+                Arrays.asList(faker.name().name(), faker.name().name(), faker.name().name()),
+                faker.book().genre(),
+                faker.timeAndDate().birthday().getYear(),
+                faker.duration().atMostHours(3).getSeconds()
+        );
+    }
+
+    public static List<Video> dummies1() {
+        return List.of(
+                Video.random("Dune 2", "Denis Villeneuve", "Timothee Chalamet"),
+                Video.random("Dune", "Denis Villeneuve", "Timothee Chalamet"),
+                Video.random("Goodfellas", "Martin Scorsese", "Robert De Niro"),
+                Video.random("The Departed", "Martin Scorsese", "Leonardo DiCaprio"),
+                Video.random("Heat", "Michael Mann", "Al Pacino")
+        );
+    }
 
     @Override
     public final boolean equals(Object o) {
