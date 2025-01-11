@@ -1,7 +1,7 @@
 package com.volod.streaming.events.subscribers.impl;
 
 import com.volod.streaming.domain.events.EventVideoEngagement;
-import com.volod.streaming.events.subscribers.VideoSubscriber;
+import com.volod.streaming.events.subscribers.VideoEventsSubscriber;
 import com.volod.streaming.services.VideoEngagementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class VideoSubscriberImpl implements VideoSubscriber {
+public class VideoEventsSubscriberImpl implements VideoEventsSubscriber {
 
     // Services
     private final VideoEngagementService videoEngagementService;
