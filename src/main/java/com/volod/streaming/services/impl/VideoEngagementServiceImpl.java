@@ -1,6 +1,7 @@
 package com.volod.streaming.services.impl;
 
 import com.volod.streaming.domain.dto.responses.ResponseVideoEngagement;
+import com.volod.streaming.domain.events.EventVideoEngagement;
 import com.volod.streaming.domain.exceptions.VideoEngagementNotFoundException;
 import com.volod.streaming.domain.model.Video;
 import com.volod.streaming.domain.model.VideoEngagement;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VideoEngagementServiceImpl implements VideoEngagementService {
 
+    // Repositories
     private final VideoEngagementRepository videoEngagementRepository;
 
     @Override
@@ -27,5 +29,14 @@ public class VideoEngagementServiceImpl implements VideoEngagementService {
     @Override
     public void createVideoEngagement(Video video) {
         this.videoEngagementRepository.save(new VideoEngagement(video));
+    }
+
+    @Override
+    public void updateEngagements(EventVideoEngagement event) {
+        var videoId = event.videoId();
+        switch (event.engagementType()) {
+            case IMPRESSION -> this.videoEngagementRepository.updateImpression(videoId);
+            case VIEW -> this.videoEngagementRepository.updateViews(videoId);
+        }
     }
 }

@@ -79,8 +79,8 @@ public class Video extends AbstractAuditPersistable {
     public static Video random(boolean hidden) {
         var faker = new Faker();
         return new Video(
-                faker.internet().url(),
                 faker.internet().username(),
+                faker.internet().url(),
                 faker.book().title(),
                 faker.text().text(25, 255),
                 faker.name().name(),
@@ -100,8 +100,8 @@ public class Video extends AbstractAuditPersistable {
     ) {
         var faker = new Faker();
         return new Video(
-                faker.internet().url(),
                 faker.internet().username(),
+                faker.internet().url(),
                 title,
                 faker.text().text(25, 255),
                 director,
