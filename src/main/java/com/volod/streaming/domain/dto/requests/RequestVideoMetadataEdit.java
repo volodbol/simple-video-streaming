@@ -10,4 +10,13 @@ public record RequestVideoMetadataEdit(
         @NotEmpty String genre,
         @Positive int duration
 ) {
+    public static RequestVideoMetadataEdit hardcoded() {
+        return new RequestVideoMetadataEdit(
+                "Nice title",
+                "Handsome director",
+                "Amazing main actor",
+                "Unique genre",
+                7200
+        );
+    }
 }

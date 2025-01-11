@@ -13,12 +13,12 @@ import java.util.UUID;
 @Repository
 public interface VideoEngagementRepository extends JpaRepository<VideoEngagement, UUID> {
     @Transactional
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE VideoEngagement SET impressions = impressions + 1 WHERE videoId = ?1")
     void updateImpression(UUID videoId);
 
     @Transactional
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE VideoEngagement SET views = views + 1 WHERE videoId = ?1")
     void updateViews(UUID videoId);
 

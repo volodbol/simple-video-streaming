@@ -80,7 +80,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseVideo editMetadata(UUID id, RequestVideoMetadataEdit request) throws VideoNotFoundException {
         var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
         video.update(request);
-        this.videoRepository.save(video);
+        this.videoRepository.saveAndFlush(video);
         return ResponseVideo.of(video);
     }
 
@@ -88,7 +88,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseVideo hideVideo(UUID id) throws VideoNotFoundException {
         var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
         video.setHidden(true);
-        this.videoRepository.save(video);
+        this.videoRepository.saveAndFlush(video);
         return ResponseVideo.of(video);
     }
 }
