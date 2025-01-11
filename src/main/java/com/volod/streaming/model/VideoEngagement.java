@@ -18,6 +18,8 @@ import java.util.Objects;
 public class VideoEngagement extends AbstractPersistable {
     public static final String TABLE_NAME = "video_engagements";
 
+    @Column(name = "video_id")
+    private String videoId;
     @Column(name = "impressions")
     private int impressions;
     @Column(name = "views")

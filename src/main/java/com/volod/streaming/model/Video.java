@@ -21,6 +21,8 @@ import java.util.Objects;
 public class Video extends AbstractAuditPersistable {
     public static final String TABLE_NAME = "videos";
 
+    @Column(name = "bucket_link")
+    private String bucketLink;
     @Column(name = "title")
     private String title;
     @Column(name = "synopsis")
@@ -46,6 +48,7 @@ public class Video extends AbstractAuditPersistable {
 
     public Video(
             String createdBy,
+            String bucketLink,
             String title,
             String synopsis,
             String director,
@@ -58,6 +61,7 @@ public class Video extends AbstractAuditPersistable {
         super(
                 createdBy
         );
+        this.bucketLink = bucketLink;
         this.title = title;
         this.synopsis = synopsis;
         this.director = director;
@@ -66,11 +70,13 @@ public class Video extends AbstractAuditPersistable {
         this.genre = genre;
         this.year = year;
         this.duration = duration;
+        this.hidden = false;
     }
 
     public static Video random() {
         var faker = new Faker();
         return new Video(
+                faker.internet().url(),
                 faker.internet().username(),
                 faker.book().title(),
                 faker.text().text(25, 255),
@@ -90,6 +96,7 @@ public class Video extends AbstractAuditPersistable {
     ) {
         var faker = new Faker();
         return new Video(
+                faker.internet().url(),
                 faker.internet().username(),
                 title,
                 faker.text().text(25, 255),

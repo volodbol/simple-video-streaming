@@ -1,22 +1,48 @@
 package com.volod.streaming;
 
 import com.volod.streaming.dto.requests.RequestVideos;
+import com.volod.streaming.model.AbstractAuditPersistable_;
 import com.volod.streaming.model.Video;
 import com.volod.streaming.repositories.VideoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+import java.util.Comparator;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Import(TestcontainersConfiguration.class)
+@DataJpaTest
 class VideoRepositoryTest {
 
     @Autowired
     private VideoRepository videoRepository;
+
+    @Test
+    void findAllPageableTest() {
+        // Arrange
+        var videos = IntStream.range(0, 30).mapToObj(i -> Video.random()).toList();
+        this.videoRepository.saveAll(videos);
+
+        // Act + Assert
+        var pageRequest = PageRequest.of(0, 10, Sort.by(DESC, AbstractAuditPersistable_.UPDATED_AT));
+        assertThat(this.videoRepository.findAll(pageRequest)).hasSize(10)
+                .extracting(Video::getUpdatedAt).isSortedAccordingTo(Comparator.reverseOrder());
+        pageRequest = pageRequest.next();
+        assertThat(this.videoRepository.findAll(pageRequest)).hasSize(10)
+                .extracting(Video::getUpdatedAt).isSortedAccordingTo(Comparator.reverseOrder());
+        pageRequest = pageRequest.next();
+        assertThat(this.videoRepository.findAll(pageRequest)).hasSize(10)
+                .extracting(Video::getUpdatedAt).isSortedAccordingTo(Comparator.reverseOrder());
+        pageRequest = pageRequest.next();
+        assertThat(this.videoRepository.findAll(pageRequest)).isEmpty();
+    }
 
     @Test
     void findAllSpecificationTest() {
