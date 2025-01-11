@@ -10,7 +10,7 @@ import com.volod.streaming.domain.exceptions.VideoNotFoundException;
 import com.volod.streaming.domain.model.AbstractAuditPersistable_;
 import com.volod.streaming.domain.model.Video;
 import com.volod.streaming.domain.model.VideoEngagementType;
-import com.volod.streaming.events.publishers.VideoPublisher;
+import com.volod.streaming.events.publishers.VideoEventsPublisher;
 import com.volod.streaming.repositories.VideoRepository;
 import com.volod.streaming.services.VideoEngagementService;
 import com.volod.streaming.services.VideoService;
@@ -37,12 +37,12 @@ public class VideoServiceImpl implements VideoService {
     // Repositories
     private final VideoRepository videoRepository;
     // Publishes
-    private final VideoPublisher videoPublisher;
+    private final VideoEventsPublisher videoEventsPublisher;
 
     @Override
-    public Slice<ResponseVideo> getVideos(Integer page) {
+    public Slice<ResponseVideo> getVideos(Integer page, Integer size) {
         return this.videoRepository.findAllByHiddenIsFalse(
-                PageRequest.of(page, 50, Sort.by(DESC, AbstractAuditPersistable_.UPDATED_AT))
+                PageRequest.of(page, size, Sort.by(DESC, AbstractAuditPersistable_.UPDATED_AT))
         ).map(ResponseVideo::of);
     }
 
@@ -56,14 +56,14 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public ResponseVideoLoad loadVideo(UUID id) throws VideoNotFoundException {
         var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
-        this.videoPublisher.publishVideoEngagement(EventVideoEngagement.of(video, VideoEngagementType.IMPRESSION));
+        this.videoEventsPublisher.publishVideoEngagement(EventVideoEngagement.of(video, VideoEngagementType.IMPRESSION));
         return ResponseVideoLoad.of(video);
     }
 
     @Override
     public ResponseVideoPlay playVideo(UUID id) throws VideoNotFoundException {
         var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
-        this.videoPublisher.publishVideoEngagement(EventVideoEngagement.of(video, VideoEngagementType.VIEW));
+        this.videoEventsPublisher.publishVideoEngagement(EventVideoEngagement.of(video, VideoEngagementType.VIEW));
         return ResponseVideoPlay.of(video);
     }
 

@@ -13,8 +13,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Order
@@ -33,13 +36,30 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ResponseException> handleMessageNotReadableException(HttpMessageNotReadableException ex) {
+    public ResponseEntity<ResponseException> handleMessageNotReadableException(HttpMessageNotReadableException ignored) {
         return new ResponseEntity<>(
                 ResponseException.of("Malformed request body", HttpStatus.BAD_REQUEST),
                 HttpStatus.BAD_REQUEST
         );
     }
 
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseException> handleMethodValidationException(HandlerMethodValidationException ex) {
+        var message = ex.getAllErrors().stream()
+                .filter(error -> nonNull(error.getCodes()) && error.getCodes().length > 0)
+                .map(error -> {
+                    var code = error.getCodes()[0];
+                    var fieldName = code.substring(code.lastIndexOf(".") + 1);
+                    return fieldName + ": " + error.getDefaultMessage();
+                })
+                .sorted()
+                .collect(Collectors.joining(", "));
+        return new ResponseEntity<>(
+                ResponseException.of(message, HttpStatus.BAD_REQUEST),
+                HttpStatus.BAD_REQUEST
+        );
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -10,7 +10,8 @@ public record ResponseVideo(
         String director,
         String mainActor,
         String genre,
-        long duration
+        long duration,
+        long updatedAt
 ) {
 
     public static ResponseVideo of(Video video) {
@@ -20,7 +21,8 @@ public record ResponseVideo(
                 video.getDirector(),
                 video.getMainActor(),
                 video.getGenre(),
-                video.getDuration()
+                video.getDuration(),
+                video.getUpdatedAt()
         );
     }
 

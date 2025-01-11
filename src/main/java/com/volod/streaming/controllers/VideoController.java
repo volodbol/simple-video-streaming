@@ -10,6 +10,7 @@ import com.volod.streaming.services.VideoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.MediaType;
@@ -29,8 +30,11 @@ public class VideoController {
 
     @Operation(summary = "Get listed videos (last updated first)")
     @GetMapping
-    public Slice<ResponseVideo> getVideos(@RequestParam(name = "page", defaultValue = "0") Integer page) {
-        return this.videoService.getVideos(page);
+    public Slice<ResponseVideo> getVideos(
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "size", defaultValue = "50") @Max(100) Integer size
+    ) {
+        return this.videoService.getVideos(page, size);
     }
 
     @Operation(summary = "Find listed videos")

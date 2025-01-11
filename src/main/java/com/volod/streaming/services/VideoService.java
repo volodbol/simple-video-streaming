@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.UUID;
 
 public interface VideoService {
-    Slice<ResponseVideo> getVideos(Integer page);
+    Slice<ResponseVideo> getVideos(Integer page, Integer size);
     Slice<ResponseVideo> findVideos(RequestVideos request);
     ResponseVideoLoad loadVideo(UUID id) throws VideoNotFoundException;
     ResponseVideoPlay playVideo(UUID id) throws VideoNotFoundException;
