@@ -9,6 +9,7 @@ import net.datafaker.Faker;
 import org.hibernate.annotations.Type;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -86,7 +87,7 @@ public class Video extends AbstractAuditPersistable {
                 Arrays.asList(faker.name().name(), faker.name().name(), faker.name().name()),
                 faker.book().genre(),
                 faker.timeAndDate().birthday().getYear(),
-                faker.duration().atMostHours(3).getSeconds(),
+                faker.timeAndDate().duration(65, 180, ChronoUnit.MINUTES).getSeconds(),
                 hidden
         );
     }

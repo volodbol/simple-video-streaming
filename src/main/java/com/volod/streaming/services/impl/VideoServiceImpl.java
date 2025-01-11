@@ -3,6 +3,7 @@ package com.volod.streaming.services.impl;
 import com.volod.streaming.dto.responses.ResponseVideo;
 import com.volod.streaming.exceptions.VideoNotFoundException;
 import com.volod.streaming.model.AbstractAuditPersistable_;
+import com.volod.streaming.model.Video;
 import com.volod.streaming.repositories.VideoRepository;
 import com.volod.streaming.services.VideoService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -33,6 +35,13 @@ public class VideoServiceImpl implements VideoService {
     public ResponseVideo hideVideo(UUID id) throws VideoNotFoundException {
         var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
         video.setHidden(true);
+        this.videoRepository.save(video);
+        return ResponseVideo.of(video);
+    }
+
+    @Override
+    public ResponseVideo postVideo(MultipartFile file) {
+        var video = Video.random(false);
         this.videoRepository.save(video);
         return ResponseVideo.of(video);
     }
