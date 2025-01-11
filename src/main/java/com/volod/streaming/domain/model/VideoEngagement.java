@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.Objects;
+import java.util.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,11 +19,20 @@ public class VideoEngagement extends AbstractPersistable {
     public static final String TABLE_NAME = "video_engagements";
 
     @Column(name = "video_id")
-    private String videoId;
+    private UUID videoId;
     @Column(name = "impressions")
     private int impressions;
     @Column(name = "views")
     private int views;
+
+    public Map<VideoEngagementType, Integer> getEngagements() {
+        var mappings = new EnumMap<VideoEngagementType, Integer>(VideoEngagementType.class);
+
+        mappings.put(VideoEngagementType.IMPRESSION, this.impressions);
+        mappings.put(VideoEngagementType.VIEW, this.views);
+
+        return mappings;
+    }
 
     @Override
     public final boolean equals(Object o) {

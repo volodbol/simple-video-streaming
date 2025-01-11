@@ -1,6 +1,7 @@
 package com.volod.streaming.controllers;
 
 import com.volod.streaming.domain.dto.responses.ResponseException;
+import com.volod.streaming.domain.exceptions.VideoEngagementNotFoundException;
 import com.volod.streaming.domain.exceptions.VideoNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -43,11 +44,11 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler({
-            VideoNotFoundException.class
+            VideoNotFoundException.class,
+            VideoEngagementNotFoundException.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ResponseException> handleNotFoundException(Exception ex) {
-
         return new ResponseEntity<>(
                 ResponseException.of(ex.getMessage(), HttpStatus.NOT_FOUND),
                 HttpStatus.NOT_FOUND
