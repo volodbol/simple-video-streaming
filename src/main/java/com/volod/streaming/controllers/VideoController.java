@@ -1,9 +1,12 @@
 package com.volod.streaming.controllers;
 
+import com.volod.streaming.dto.requests.RequestVideoMetadataEdit;
 import com.volod.streaming.dto.responses.ResponseVideo;
 import com.volod.streaming.exceptions.VideoNotFoundException;
 import com.volod.streaming.services.VideoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.MediaType;
@@ -12,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
+@Tag(name = "Videos API")
 @RestController
 @RequestMapping("v1/videos")
 @RequiredArgsConstructor
@@ -29,6 +33,15 @@ public class VideoController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseVideo postVideo(@RequestParam("file") MultipartFile file) {
         return this.videoService.postVideo(file);
+    }
+
+    @Operation(summary = "Edit a video metadata")
+    @PutMapping("{id}")
+    public ResponseVideo editMetadata(
+            @PathVariable("id") UUID id,
+            @RequestBody @Valid RequestVideoMetadataEdit request
+    ) throws VideoNotFoundException {
+        return this.videoService.editMetadata(id, request);
     }
 
     @Operation(summary = "Hide a video")

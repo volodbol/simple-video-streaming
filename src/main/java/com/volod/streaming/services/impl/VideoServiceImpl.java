@@ -1,5 +1,6 @@
 package com.volod.streaming.services.impl;
 
+import com.volod.streaming.dto.requests.RequestVideoMetadataEdit;
 import com.volod.streaming.dto.responses.ResponseVideo;
 import com.volod.streaming.exceptions.VideoNotFoundException;
 import com.volod.streaming.model.AbstractAuditPersistable_;
@@ -32,16 +33,24 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public ResponseVideo hideVideo(UUID id) throws VideoNotFoundException {
-        var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
-        video.setHidden(true);
+    public ResponseVideo postVideo(MultipartFile file) {
+        var video = Video.random(false);
         this.videoRepository.save(video);
         return ResponseVideo.of(video);
     }
 
     @Override
-    public ResponseVideo postVideo(MultipartFile file) {
-        var video = Video.random(false);
+    public ResponseVideo editMetadata(UUID id, RequestVideoMetadataEdit request) throws VideoNotFoundException {
+        var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
+        video.update(request);
+        this.videoRepository.save(video);
+        return ResponseVideo.of(video);
+    }
+
+    @Override
+    public ResponseVideo hideVideo(UUID id) throws VideoNotFoundException {
+        var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
+        video.setHidden(true);
         this.videoRepository.save(video);
         return ResponseVideo.of(video);
     }

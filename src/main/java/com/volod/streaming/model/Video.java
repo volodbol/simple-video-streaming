@@ -1,5 +1,6 @@
 package com.volod.streaming.model;
 
+import com.volod.streaming.dto.requests.RequestVideoMetadataEdit;
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -121,6 +122,14 @@ public class Video extends AbstractAuditPersistable {
                 Video.random("The Departed", "Martin Scorsese", "Leonardo DiCaprio"),
                 Video.random("Heat", "Michael Mann", "Al Pacino")
         );
+    }
+
+    public void update(RequestVideoMetadataEdit request) {
+        this.title = request.title();
+        this.director = request.director();
+        this.mainActor = request.mainActor();
+        this.genre = request.genre();
+        this.duration = request.duration();
     }
 
     @Override
