@@ -3,6 +3,7 @@ package com.volod.streaming.controllers;
 import com.volod.streaming.domain.dto.requests.RequestVideoMetadataEdit;
 import com.volod.streaming.domain.dto.responses.ResponseVideo;
 import com.volod.streaming.domain.dto.responses.ResponseVideoLoad;
+import com.volod.streaming.domain.dto.responses.ResponseVideoPlay;
 import com.volod.streaming.domain.exceptions.VideoNotFoundException;
 import com.volod.streaming.services.VideoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,6 +35,12 @@ public class VideoController {
     @GetMapping("{id}")
     public ResponseVideoLoad loadVideo(@PathVariable UUID id) throws VideoNotFoundException {
         return this.videoService.loadVideo(id);
+    }
+
+    @Operation(summary = "Play a video")
+    @GetMapping("{id}/play")
+    public ResponseVideoPlay playVideo(@PathVariable UUID id) throws VideoNotFoundException {
+        return this.videoService.playVideo(id);
     }
 
     @Operation(summary = "Post a video")

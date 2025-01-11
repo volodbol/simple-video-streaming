@@ -3,8 +3,10 @@ package com.volod.streaming.services.impl;
 import com.volod.streaming.domain.dto.requests.RequestVideoMetadataEdit;
 import com.volod.streaming.domain.dto.responses.ResponseVideo;
 import com.volod.streaming.domain.dto.responses.ResponseVideoLoad;
-import com.volod.streaming.domain.events.EventVideoLoad;
+import com.volod.streaming.domain.dto.responses.ResponseVideoPlay;
+import com.volod.streaming.domain.events.EventVideoEngagement;
 import com.volod.streaming.domain.exceptions.VideoNotFoundException;
+import com.volod.streaming.domain.model.VideoEngagementType;
 import com.volod.streaming.events.publishers.VideoPublisher;
 import com.volod.streaming.model.AbstractAuditPersistable_;
 import com.volod.streaming.domain.model.Video;
@@ -40,8 +42,15 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public ResponseVideoLoad loadVideo(UUID id) throws VideoNotFoundException {
         var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
-        this.videoPublisher.publishVideoLoad(EventVideoLoad.of(video));
+        this.videoPublisher.publishVideoEngagement(EventVideoEngagement.of(video, VideoEngagementType.IMPRESSION));
         return ResponseVideoLoad.of(video);
+    }
+
+    @Override
+    public ResponseVideoPlay playVideo(UUID id) throws VideoNotFoundException {
+        var video = this.videoRepository.findById(id).orElseThrow(() -> VideoNotFoundException.of(id));
+        this.videoPublisher.publishVideoEngagement(EventVideoEngagement.of(video, VideoEngagementType.VIEW));
+        return ResponseVideoPlay.of(video);
     }
 
     @Override
