@@ -39,7 +39,7 @@ public class VideoController {
 
     @Operation(summary = "Find listed videos")
     @PostMapping("/search")
-    public Slice<ResponseVideo> findVideos(@RequestBody RequestVideos request) {
+    public Slice<ResponseVideo> findVideos(@RequestBody @Valid RequestVideos request) {
         return this.videoService.findVideos(request);
     }
 
