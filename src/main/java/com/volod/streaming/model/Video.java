@@ -56,7 +56,8 @@ public class Video extends AbstractAuditPersistable {
             List<String> cast,
             String genre,
             int year,
-            long duration
+            long duration,
+            boolean hidden
     ) {
         super(
                 createdBy
@@ -70,10 +71,10 @@ public class Video extends AbstractAuditPersistable {
         this.genre = genre;
         this.year = year;
         this.duration = duration;
-        this.hidden = false;
+        this.hidden = hidden;
     }
 
-    public static Video random() {
+    public static Video random(boolean hidden) {
         var faker = new Faker();
         return new Video(
                 faker.internet().url(),
@@ -85,7 +86,8 @@ public class Video extends AbstractAuditPersistable {
                 Arrays.asList(faker.name().name(), faker.name().name(), faker.name().name()),
                 faker.book().genre(),
                 faker.timeAndDate().birthday().getYear(),
-                faker.duration().atMostHours(3).getSeconds()
+                faker.duration().atMostHours(3).getSeconds(),
+                hidden
         );
     }
 
@@ -105,7 +107,8 @@ public class Video extends AbstractAuditPersistable {
                 Arrays.asList(faker.name().name(), faker.name().name(), faker.name().name()),
                 faker.book().genre(),
                 faker.timeAndDate().birthday().getYear(),
-                faker.duration().atMostHours(3).getSeconds()
+                faker.duration().atMostHours(3).getSeconds(),
+                false
         );
     }
 

@@ -21,7 +21,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Slice<ResponseVideo> getVideos(Integer page) {
-        return this.videoRepository.findAll(
+        return this.videoRepository.findAllByHiddenIsFalse(
                 PageRequest.of(page, 50, Sort.by(DESC, AbstractAuditPersistable_.UPDATED_AT))
         ).map(ResponseVideo::of);
     }

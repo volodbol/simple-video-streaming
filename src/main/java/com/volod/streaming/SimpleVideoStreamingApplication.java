@@ -33,7 +33,7 @@ public class SimpleVideoStreamingApplication {
         return args -> {
             if (videoRepository.count() == 0) {
                 var films = IntStream.range(0, 250)
-                        .mapToObj(i -> Video.random())
+                        .mapToObj(i -> Video.random(false))
                         .collect(Collectors.toSet());
                 videoRepository.saveAll(films);
             }
