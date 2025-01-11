@@ -1,15 +1,16 @@
 package com.volod.streaming.services.impl;
 
 import com.volod.streaming.domain.dto.requests.RequestVideoMetadataEdit;
+import com.volod.streaming.domain.dto.requests.RequestVideos;
 import com.volod.streaming.domain.dto.responses.ResponseVideo;
 import com.volod.streaming.domain.dto.responses.ResponseVideoLoad;
 import com.volod.streaming.domain.dto.responses.ResponseVideoPlay;
 import com.volod.streaming.domain.events.EventVideoEngagement;
 import com.volod.streaming.domain.exceptions.VideoNotFoundException;
+import com.volod.streaming.domain.model.AbstractAuditPersistable_;
+import com.volod.streaming.domain.model.Video;
 import com.volod.streaming.domain.model.VideoEngagementType;
 import com.volod.streaming.events.publishers.VideoPublisher;
-import com.volod.streaming.model.AbstractAuditPersistable_;
-import com.volod.streaming.domain.model.Video;
 import com.volod.streaming.repositories.VideoRepository;
 import com.volod.streaming.services.VideoService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,13 @@ public class VideoServiceImpl implements VideoService {
         return this.videoRepository.findAllByHiddenIsFalse(
                 PageRequest.of(page, 50, Sort.by(DESC, AbstractAuditPersistable_.UPDATED_AT))
         ).map(ResponseVideo::of);
+    }
+
+    @Override
+    public Slice<ResponseVideo> findVideos(RequestVideos request) {
+        var pageable = request.toPageable();
+        var specification = request.toSpecification();
+        return this.videoRepository.findAll(specification, pageable).map(ResponseVideo::of);
     }
 
     @Override

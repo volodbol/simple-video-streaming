@@ -1,6 +1,7 @@
 package com.volod.streaming.services;
 
 import com.volod.streaming.domain.dto.requests.RequestVideoMetadataEdit;
+import com.volod.streaming.domain.dto.requests.RequestVideos;
 import com.volod.streaming.domain.dto.responses.ResponseVideo;
 import com.volod.streaming.domain.dto.responses.ResponseVideoLoad;
 import com.volod.streaming.domain.dto.responses.ResponseVideoPlay;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 public interface VideoService {
     Slice<ResponseVideo> getVideos(Integer page);
+    Slice<ResponseVideo> findVideos(RequestVideos request);
     ResponseVideoLoad loadVideo(UUID id) throws VideoNotFoundException;
     ResponseVideoPlay playVideo(UUID id) throws VideoNotFoundException;
     ResponseVideo postVideo(MultipartFile file);

@@ -17,7 +17,7 @@ public record RequestVideos(
 ) {
 
     public Specification<Video> toSpecification() {
-        var spec = Specification.<Video>where(null);
+        var spec = Specification.where(VideoSpecs.listed());
 
         if (nonNull(this.title)) {
             spec = spec.and(VideoSpecs.hasTitle(this.title));

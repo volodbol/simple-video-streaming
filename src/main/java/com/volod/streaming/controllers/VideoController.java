@@ -1,6 +1,7 @@
 package com.volod.streaming.controllers;
 
 import com.volod.streaming.domain.dto.requests.RequestVideoMetadataEdit;
+import com.volod.streaming.domain.dto.requests.RequestVideos;
 import com.volod.streaming.domain.dto.responses.ResponseVideo;
 import com.volod.streaming.domain.dto.responses.ResponseVideoLoad;
 import com.volod.streaming.domain.dto.responses.ResponseVideoPlay;
@@ -31,14 +32,20 @@ public class VideoController {
         return this.videoService.getVideos(page);
     }
 
+    @Operation(summary = "Find listed videos")
+    @PostMapping("/search")
+    public Slice<ResponseVideo> findVideos(@RequestBody RequestVideos request) {
+        return this.videoService.findVideos(request);
+    }
+
     @Operation(summary = "Load a video")
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseVideoLoad loadVideo(@PathVariable UUID id) throws VideoNotFoundException {
         return this.videoService.loadVideo(id);
     }
 
     @Operation(summary = "Play a video")
-    @GetMapping("{id}/play")
+    @GetMapping("/{id}/play")
     public ResponseVideoPlay playVideo(@PathVariable UUID id) throws VideoNotFoundException {
         return this.videoService.playVideo(id);
     }
@@ -50,7 +57,7 @@ public class VideoController {
     }
 
     @Operation(summary = "Edit a video metadata")
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseVideo editMetadata(
             @PathVariable("id") UUID id,
             @RequestBody @Valid RequestVideoMetadataEdit request
