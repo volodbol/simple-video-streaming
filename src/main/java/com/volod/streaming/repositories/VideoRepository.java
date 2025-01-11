@@ -1,6 +1,6 @@
 package com.volod.streaming.repositories;
 
-import com.volod.streaming.model.Video;
+import com.volod.streaming.domain.model.Video;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;

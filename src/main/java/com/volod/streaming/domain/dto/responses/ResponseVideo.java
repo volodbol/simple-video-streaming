@@ -1,6 +1,6 @@
-package com.volod.streaming.dto.responses;
+package com.volod.streaming.domain.dto.responses;
 
-import com.volod.streaming.model.Video;
+import com.volod.streaming.domain.model.Video;
 
 import java.util.UUID;
 

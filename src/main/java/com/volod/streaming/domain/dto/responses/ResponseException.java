@@ -1,4 +1,4 @@
-package com.volod.streaming.dto.responses;
+package com.volod.streaming.domain.dto.responses;
 
 import org.springframework.http.HttpStatus;
 

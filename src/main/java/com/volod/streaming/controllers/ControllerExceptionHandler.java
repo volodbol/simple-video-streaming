@@ -1,7 +1,7 @@
 package com.volod.streaming.controllers;
 
-import com.volod.streaming.dto.responses.ResponseException;
-import com.volod.streaming.exceptions.VideoNotFoundException;
+import com.volod.streaming.domain.dto.responses.ResponseException;
+import com.volod.streaming.domain.exceptions.VideoNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

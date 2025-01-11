@@ -1,6 +1,6 @@
-package com.volod.streaming.model;
+package com.volod.streaming.domain.model;
 
-import com.volod.streaming.dto.requests.RequestVideoMetadataEdit;
+import com.volod.streaming.domain.dto.requests.RequestVideoMetadataEdit;
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

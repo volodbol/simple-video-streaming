@@ -1,4 +1,4 @@
-package com.volod.streaming.exceptions;
+package com.volod.streaming.domain.exceptions;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package com.volod.streaming;
 
-import com.volod.streaming.model.Video;
+import com.volod.streaming.domain.model.Video;
 import com.volod.streaming.repositories.VideoRepository;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;

@@ -1,8 +1,9 @@
 package com.volod.streaming.controllers;
 
-import com.volod.streaming.dto.requests.RequestVideoMetadataEdit;
-import com.volod.streaming.dto.responses.ResponseVideo;
-import com.volod.streaming.exceptions.VideoNotFoundException;
+import com.volod.streaming.domain.dto.requests.RequestVideoMetadataEdit;
+import com.volod.streaming.domain.dto.responses.ResponseVideo;
+import com.volod.streaming.domain.dto.responses.ResponseVideoLoad;
+import com.volod.streaming.domain.exceptions.VideoNotFoundException;
 import com.volod.streaming.services.VideoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,6 +28,12 @@ public class VideoController {
     @GetMapping
     public Slice<ResponseVideo> getVideos(@RequestParam(name = "page", defaultValue = "0") Integer page) {
         return this.videoService.getVideos(page);
+    }
+
+    @Operation(summary = "Load a video")
+    @GetMapping("{id}")
+    public ResponseVideoLoad loadVideo(@PathVariable UUID id) throws VideoNotFoundException {
+        return this.videoService.loadVideo(id);
     }
 
     @Operation(summary = "Post a video")

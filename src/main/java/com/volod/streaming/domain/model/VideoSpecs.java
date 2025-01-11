@@ -1,4 +1,4 @@
-package com.volod.streaming.model;
+package com.volod.streaming.domain.model;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;

@@ -1,7 +1,7 @@
-package com.volod.streaming.dto.requests;
+package com.volod.streaming.domain.dto.requests;
 
-import com.volod.streaming.model.Video;
-import com.volod.streaming.model.VideoSpecs;
+import com.volod.streaming.domain.model.Video;
+import com.volod.streaming.domain.model.VideoSpecs;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
