@@ -1,6 +1,8 @@
 package com.volod.streaming;
 
 import com.volod.streaming.domain.model.Video;
+import com.volod.streaming.domain.model.VideoEngagement;
+import com.volod.streaming.repositories.VideoEngagementRepository;
 import com.volod.streaming.repositories.VideoRepository;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -28,14 +30,17 @@ public class SimpleVideoStreamingApplication {
     @Profile("dev")
     @Bean
     CommandLineRunner commandLineRunner(
-            VideoRepository videoRepository
+            VideoRepository videoRepository,
+            VideoEngagementRepository videoEngagementRepository
     ) {
         return args -> {
             if (videoRepository.count() == 0) {
-                var films = IntStream.range(0, 250)
+                var films = IntStream.range(0, 25)
                         .mapToObj(i -> Video.random(false))
                         .collect(Collectors.toSet());
                 videoRepository.saveAll(films);
+                var engagements = films.stream().map(VideoEngagement::new).collect(Collectors.toSet());
+                videoEngagementRepository.saveAll(engagements);
             }
         };
     }

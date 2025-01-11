@@ -12,22 +12,28 @@ import com.volod.streaming.domain.model.Video;
 import com.volod.streaming.domain.model.VideoEngagementType;
 import com.volod.streaming.events.publishers.VideoPublisher;
 import com.volod.streaming.repositories.VideoRepository;
+import com.volod.streaming.services.VideoEngagementService;
 import com.volod.streaming.services.VideoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
 
+    // Services
+    private final VideoEngagementService videoEngagementService;
     // Repositories
     private final VideoRepository videoRepository;
     // Publishes
@@ -63,8 +69,10 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public ResponseVideo postVideo(MultipartFile file) {
+        log.debug("Post video within transaction: {}", TransactionSynchronizationManager.isActualTransactionActive());
         var video = Video.random(false);
         this.videoRepository.save(video);
+        this.videoEngagementService.createVideoEngagement(video);
         return ResponseVideo.of(video);
     }
 

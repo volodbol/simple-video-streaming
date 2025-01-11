@@ -2,7 +2,7 @@ package com.volod.streaming.repositories;
 
 import com.volod.streaming.TestcontainersConfiguration;
 import com.volod.streaming.domain.dto.requests.RequestVideos;
-import com.volod.streaming.model.AbstractAuditPersistable_;
+import com.volod.streaming.domain.model.AbstractAuditPersistable_;
 import com.volod.streaming.domain.model.Video;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

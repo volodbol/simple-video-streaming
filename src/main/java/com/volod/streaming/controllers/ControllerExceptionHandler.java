@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,6 +30,16 @@ public class ControllerExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseException> handleMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return new ResponseEntity<>(
+                ResponseException.of("Malformed request body", HttpStatus.BAD_REQUEST),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

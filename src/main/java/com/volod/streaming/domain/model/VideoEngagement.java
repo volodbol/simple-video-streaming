@@ -8,8 +8,6 @@ import org.hibernate.proxy.HibernateProxy;
 
 import java.util.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -24,6 +22,23 @@ public class VideoEngagement extends AbstractPersistable {
     private int impressions;
     @Column(name = "views")
     private int views;
+
+    public VideoEngagement() {
+    }
+
+    public VideoEngagement(UUID videoId, int impressions, int views) {
+        this.videoId = videoId;
+        this.impressions = impressions;
+        this.views = views;
+    }
+
+    public VideoEngagement(Video video) {
+        this(
+                video.id,
+                0,
+                0
+        );
+    }
 
     public Map<VideoEngagementType, Integer> getEngagements() {
         var mappings = new EnumMap<VideoEngagementType, Integer>(VideoEngagementType.class);
