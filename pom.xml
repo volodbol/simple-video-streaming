@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.volod</groupId>
     <artifactId>simple-video-streaming</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>simple-video-streaming</name>
     <description>Simple video streaming application</description>
     <url/>
