@@ -19,6 +19,16 @@ public record RequestVideos(
         @Nullable @Positive @Max(100) Integer size
 ) {
 
+    public static RequestVideos hardcoded() {
+        return new RequestVideos(
+                "Nice title",
+                "Handsome director",
+                "Amazing main actor",
+                0,
+                50
+        );
+    }
+
     public Specification<Video> toSpecification() {
         var spec = Specification.where(VideoSpecs.listed());
 

@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Tag(name = "Videos Engagements API")
 @RestController
-@RequestMapping("v1/videos/{videoId}/engagements")
+@RequestMapping("/v1/videos/{videoId}/engagements")
 @RequiredArgsConstructor
 public class VideoEngagementController {
 

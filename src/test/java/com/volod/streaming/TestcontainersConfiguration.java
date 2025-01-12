@@ -1,13 +1,14 @@
 package com.volod.streaming;
 
+import com.volod.streaming.configurations.PersistenceConfig;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.context.annotation.Import;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-@EnableJpaAuditing
+@Import(PersistenceConfig.class)
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
 

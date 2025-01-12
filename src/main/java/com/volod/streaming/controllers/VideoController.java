@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ import java.util.UUID;
 
 @Tag(name = "Videos API")
 @RestController
-@RequestMapping("v1/videos")
+@RequestMapping("/v1/videos")
 @RequiredArgsConstructor
 public class VideoController {
 
@@ -32,7 +33,7 @@ public class VideoController {
     @GetMapping
     public Slice<ResponseVideo> getVideos(
             @RequestParam(name = "page", defaultValue = "0") Integer page,
-            @RequestParam(name = "size", defaultValue = "50") @Max(100) Integer size
+            @RequestParam(name = "size", defaultValue = "50") @Positive @Max(100) Integer size
     ) {
         return this.videoService.getVideos(page, size);
     }
