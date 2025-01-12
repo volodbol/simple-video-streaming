@@ -56,7 +56,7 @@ Design and Development Decisions
 Videos metadata, along with links to their respective files, are stored in a single database table.
 
 - Future Considerations:
-To improve performance for /play requests, it may be beneficial to create a dedicated table specifically for streamable file links.
+To improve performance for `/play` requests, it may be beneficial to create a dedicated table specifically for streamable file links.
   - This table could be normalized, with data like actor information stored in separate tables.
   - These changes, however, require a deeper understanding of the business requirements to ensure alignment with needs.
 
@@ -67,12 +67,12 @@ The current database schema does not yet support advanced search capabilities.
 
 - Potential Enhancements:
   - Explore integrating Elasticsearch for full-text search and more complex querying capabilities.
-  - Alternatively, consider adding plugin-based indexes to PostgreSQL, enabling efficient searches on VARCHAR columns. Further research is necessary to determine the best approach.
+  - Alternatively, consider adding plugin-based indexes to PostgreSQL, enabling efficient searches on `VARCHAR` columns. Further research is necessary to determine the best approach.
 
 **Engagement Tracking**
 
 - Implementation Details:
-User interactions with /play and /load endpoints are recorded as engagements.
+User interactions with `/play` and `/load` endpoints are recorded as engagements.
   - Engagements are processed asynchronously using a pub/sub event mechanism, which operates in a separate thread.
 
 - Future Scalability:
